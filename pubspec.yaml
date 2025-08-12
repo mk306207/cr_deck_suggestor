@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   http: ^1.2.1
+  modal_progress_hud_nsn: ^0.3.0
+  fluttertoast: ^8.2.12
   flutter:
     sdk: flutter
 
