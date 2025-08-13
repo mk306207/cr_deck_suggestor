@@ -106,6 +106,8 @@ class _MyFormPageState extends State<MyFormPage> {
       backgroundColor: Colors.grey[100],
       body: ModalProgressHUD(
         inAsyncCall: _saving,
+        progressIndicator: CircularProgressIndicator(color: Colors.teal,),
+        
         child: Column(
           children: [
             Container(
