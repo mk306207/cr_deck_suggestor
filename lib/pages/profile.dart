@@ -83,24 +83,25 @@ class Profile extends StatelessWidget {
         }
       }
     }
-    print(currentDeck.length);
-    for(var myCard in currentDeck){
+    //print(currentDeck.length);
+    for (var myCard in currentDeck) {
       var c;
       var path = myCard['iconUrls'];
-      try{
+      try {
         var test = myCard['evolutionLevel'];
-        c = crCard(myCard['name'],path['evolutionMedium'],myCard['level']);
-      }on NoSuchMethodError catch(_){
-
-        c = crCard(myCard['name'],path['medium'],myCard['level']);
+        c = crCard(myCard['name'], path['evolutionMedium'], myCard['level']);
+        if(test == null){
+          c = crCard(myCard['name'], path['medium'], myCard['level']);
+        }
+      } on NoSuchMethodError{
+        print("ERROR");
       }
-      
-        
-      
-      
-      
-      print(c.name);
+      //print(path['medium']);
+      //print(c.name);
+      //print(c.image);
+      deck.add(c);
     }
+    print(deck.length);
     //print(jsondata[5]);
     //final commonMissingWidth
     //print('${commonCount} - ${rareCount} - ${epicCount} - ${legendaryCount} - ${championCount}');
@@ -259,9 +260,9 @@ class Profile extends StatelessWidget {
           SizedBox(height: 20),
           Text("Current deck"),
           Container(
-            height: 200.0,
-            width: double.infinity,
-            padding: EdgeInsets.all(5),
+            height: 186.0,
+            width: 364,
+            //padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               border: Border.all(
                 color: const Color.fromARGB(143, 0, 150, 135),
@@ -273,12 +274,70 @@ class Profile extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(padding: EdgeInsets.all(8), child: Text("h1")),
-                    Text("h2"),
+                    
+                    Image.network(
+                        deck[0].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                    Image.network(
+                        deck[1].image,
+                        
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                      Image.network(
+                        deck[2].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                      Image.network(
+                        deck[3].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
                   ],
                 ),
-                Row(children: [Text("h3"), Text("h4")]),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.network(
+                        deck[4].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                      Image.network(
+                        deck[5].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                      Image.network(
+                        deck[6].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),
+                      Image.network(
+                        deck[7].image,
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                      ),]),
               ],
             ),
           ),
