@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cr_deck_suggestor/pages/AnimatedBar.dart';
+import 'package:cr_deck_suggestor/pages/card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +16,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final jsondata = json.decode(responsePlayer.body);
-
+    final currentDeck = jsondata["currentDeck"];
     final commonCount = jsondata['everyCardCount']['common'];
     final rareCount = jsondata['everyCardCount']['rare'];
     final epicCount = jsondata['everyCardCount']['epic'];
@@ -67,6 +68,7 @@ class Profile extends StatelessWidget {
     legendaryWidth = legendaryWidth - missingProgressBarLegendary;
     championWidth = championWidth - missingProgressBarChamp;
 
+    var deck = [];
     if (explevel <= 10) {
     } else {
       level = 6;
@@ -80,6 +82,24 @@ class Profile extends StatelessWidget {
           counter = 0;
         }
       }
+    }
+    print(currentDeck.length);
+    for(var myCard in currentDeck){
+      var c;
+      var path = myCard['iconUrls'];
+      try{
+        var test = myCard['evolutionLevel'];
+        c = crCard(myCard['name'],path['evolutionMedium'],myCard['level']);
+      }on NoSuchMethodError catch(_){
+
+        c = crCard(myCard['name'],path['medium'],myCard['level']);
+      }
+      
+        
+      
+      
+      
+      print(c.name);
     }
     //print(jsondata[5]);
     //final commonMissingWidth
@@ -243,22 +263,24 @@ class Profile extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: Colors.teal,
-              border: Border.all(color: Colors.black, width: 2.0),
+              border: Border.all(
+                color: const Color.fromARGB(143, 0, 150, 135),
+                width: 2.0,
+              ),
               borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 2.0,
-                  offset: Offset(2.0, 2.0),
+              color: const Color.fromARGB(143, 0, 150, 135),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(padding: EdgeInsets.all(8), child: Text("h1")),
+                    Text("h2"),
+                  ],
                 ),
+                Row(children: [Text("h3"), Text("h4")]),
               ],
             ),
-            child:Column(
-              children: [
-              Row(children: [Padding(padding: EdgeInsets.all(8),child: Text("h1"),),Text("h2")],),
-              Row(children: [Text("h3"),Text("h4")],)
-            ],)
           ),
         ],
       ),
