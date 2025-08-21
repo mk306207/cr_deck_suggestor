@@ -21,18 +21,33 @@ class Profile extends StatelessWidget {
     final epicCount = jsondata['everyCardCount']['epic'];
     final legendaryCount = jsondata['everyCardCount']['legendary'];
     final championCount = jsondata['everyCardCount']['champion'];
+    final cardsCount =
+        commonCount + rareCount + epicCount + legendaryCount + championCount;
 
     final commonMissingCount = jsondata['missingCardCount']['common'];
     final rareMissingCount = jsondata['missingCardCount']['rare'];
     final epicMissingCount = jsondata['missingCardCount']['epic'];
     final legendaryMissingCount = jsondata['missingCardCount']['legendary'];
     final championMissingCount = jsondata['missingCardCount']['champion'];
+    final missingCardsCount =
+        commonMissingCount +
+        rareMissingCount +
+        epicMissingCount +
+        legendaryMissingCount +
+        championMissingCount;
+
+    var explevel = jsondata['expLevel'];
+    final wins = jsondata['wins'];
+    final losses = jsondata['losses'];
+    final arena = jsondata['arena']['name'];
+    final trophies = jsondata['trophies'];
 
     var commonWidth = 90.0;
     var rareWidth = 110.0;
     var epicWidth = 100.0;
     var legendaryWidth = 75.0;
     var championWidth = 30.0;
+    var level = 0;
 
     final oneCommonWidth = commonWidth / commonCount;
     final oneRareWidth = rareWidth / rareCount;
@@ -52,6 +67,21 @@ class Profile extends StatelessWidget {
     legendaryWidth = legendaryWidth - missingProgressBarLegendary;
     championWidth = championWidth - missingProgressBarChamp;
 
+    if (explevel <= 10) {
+    } else {
+      level = 6;
+      explevel -= 10;
+      var counter = 0;
+      while (explevel > 0) {
+        explevel -= 1;
+        counter += 1;
+        if (counter == 4) {
+          level += 1;
+          counter = 0;
+        }
+      }
+    }
+    //print(jsondata[5]);
     //final commonMissingWidth
     //print('${commonCount} - ${rareCount} - ${epicCount} - ${legendaryCount} - ${championCount}');
     return Scaffold(
@@ -131,7 +161,104 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage("assets/crown.png"),
+                    width: 40,
+                    height: 50,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(width: 5),
+                  Text("$level"),
+                  SizedBox(width: 5),
+                  Image(
+                    image: AssetImage("assets/win.png"),
+                    width: 50,
+                    height: 50,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  Text("$wins"), //check it
+                  SizedBox(width: 5),
+                  Image(
+                    image: AssetImage("assets/lose.png"),
+                    width: 45,
+                    height: 45,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  Text("$losses"), //
+                  SizedBox(width: 10),
+                  Image(
+                    image: AssetImage("assets/deck.png"),
+                    width: 35,
+                    height: 35,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(width: 5),
+                  Text("${cardsCount - missingCardsCount}/${cardsCount}"), //
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage("assets/arena.png"),
+                    width: 35,
+                    height: 35,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(width: 5),
+                  Text("$arena"),
+                  SizedBox(width: 10),
+                  Image(
+                    image: AssetImage("assets/troph.png"),
+                    width: 35,
+                    height: 35,
+                    color: null,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(width: 5),
+                  Text("$trophies"),
+                ],
+              ),
             ],
+          ),
+          SizedBox(height: 20),
+          Text("Current deck"),
+          Container(
+            height: 200.0,
+            width: double.infinity,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.teal,
+              border: Border.all(color: Colors.black, width: 2.0),
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 2.0,
+                  offset: Offset(2.0, 2.0),
+                ),
+              ],
+            ),
+            child:Column(
+              children: [
+              Row(children: [Padding(padding: EdgeInsets.all(8),child: Text("h1"),),Text("h2")],),
+              Row(children: [Text("h3"),Text("h4")],)
+            ],)
           ),
         ],
       ),
