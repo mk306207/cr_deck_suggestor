@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cr_deck_suggestor/pages/AnimatedBar.dart';
 import 'package:cr_deck_suggestor/pages/card.dart';
+import 'package:cr_deck_suggestor/pages/decksuggestor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,8 +14,10 @@ class Profile extends StatelessWidget {
     required this.responsePlayer,
     required this.responseDecks,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final decksdata = json.decode(responseDecks.body);
     final jsondata = json.decode(responsePlayer.body);
     final currentDeck = jsondata["currentDeck"];
     final commonCount = jsondata['everyCardCount']['common'];
@@ -84,24 +87,59 @@ class Profile extends StatelessWidget {
       }
     }
     //print(currentDeck.length);
+    num cardLevels = 0;
     for (var myCard in currentDeck) {
       var c;
       var path = myCard['iconUrls'];
       try {
         var test = myCard['evolutionLevel'];
         c = crCard(myCard['name'], path['evolutionMedium'], myCard['level']);
-        if(test == null){
+
+        if (test == null) {
           c = crCard(myCard['name'], path['medium'], myCard['level']);
         }
-      } on NoSuchMethodError{
+      } on NoSuchMethodError {
         print("ERROR");
+      }
+      if (myCard['rarity'] == "common") {
+        cardLevels += c.level;
+      }
+      if (myCard['rarity'] == "rare") {
+        c.level += 2;
+        cardLevels += c.level;
+      }
+      if (myCard['rarity'] == "epic") {
+        c.level += 5;
+        cardLevels += c.level;
+      }
+      if (myCard['rarity'] == "legendary") {
+        c.level += 8;
+        cardLevels += c.level;
+      }
+      if (myCard['rarity'] == "champion") {
+        c.level += 10;
+        cardLevels += c.level;
       }
       //print(path['medium']);
       //print(c.name);
       //print(c.image);
+
       deck.add(c);
     }
-    print(deck.length);
+    //print(cardLevels);
+    cardLevels = cardLevels / 8;
+    //print(cardLevels);
+    cardLevels = cardLevels.round();
+    //cardLevels = 10;
+    //print(cardLevels);
+    var cardsToUpgrade = [];
+    for (var myCard in deck) {
+      if (myCard.level < cardLevels) {
+        cardsToUpgrade.add(myCard);
+      }
+    }
+    //print(cardLevels);
+    //print(deck.length);
     //print(jsondata[5]);
     //final commonMissingWidth
     //print('${commonCount} - ${rareCount} - ${epicCount} - ${legendaryCount} - ${championCount}');
@@ -276,73 +314,137 @@ class Profile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    
                     Image.network(
-                        deck[0].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
+                      deck[0].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
                     Image.network(
-                        deck[1].image,
-                        
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
-                      Image.network(
-                        deck[2].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
-                      Image.network(
-                        deck[3].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
+                      deck[1].image,
+
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                    Image.network(
+                      deck[2].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                    Image.network(
+                      deck[3].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.network(
-                        deck[4].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
-                      Image.network(
-                        deck[5].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
-                      Image.network(
-                        deck[6].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
-                      Image.network(
-                        deck[7].image,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),]),
+                  children: [
+                    Image.network(
+                      deck[4].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                    Image.network(
+                      deck[5].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                    Image.network(
+                      deck[6].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                    Image.network(
+                      deck[7].image,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.center,
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
+          SizedBox(height: 15),
+          //Text("Cards to upgrade: ${cardsToUpgrade.map((card) => card.name).join(", ")}")
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width:10),
+              Image(
+                image: cardsToUpgrade.isEmpty
+                    ? AssetImage("assets/check1.png")
+                    : AssetImage("assets/questionmark1.png"),
+                width: 40,
+                height: 40,
+                color: null,
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
+              ),
+              SizedBox(width : cardsToUpgrade.isEmpty
+                      ? 10
+                      : 0),
+              Flexible(
+                child: (Text(
+                  softWrap: true, // pozwala na zawijanie
+                  overflow: TextOverflow.visible, // nic nie utnie
+                  maxLines: null,
+                  textAlign: TextAlign.center,
+                  cardsToUpgrade.isEmpty
+                      ? "Nothing to upgrade :)"
+                      : "Cards to upgrade: ${cardsToUpgrade.map((card) => card.name).join(", ")}",
+                ))
+              ),
+            ],
+          ),
+          SizedBox(height:150),
+          ElevatedButton(
+            onPressed: () {
+            // tutaj używamy context z build
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DeckSuggestor(
+                  playerData: jsondata,
+                  decks: decksdata,
+                ),
+              ),
+            );
+          },
+            style: ButtonStyle(
+                overlayColor: getColor(Colors.white, Colors.teal),
+                foregroundColor: getColor(Colors.teal, Colors.white),
+                ),
+              child: const Text('Suggest a deck'),)
+                      
         ],
       ),
     );
   }
+  WidgetStateProperty<Color> getColor(Color color, Color colorPressed) {
+    return WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+      if (states.contains(WidgetState.pressed)) {
+        return colorPressed;
+      } else {
+        return color;
+      }
+  });
+
+}
 }

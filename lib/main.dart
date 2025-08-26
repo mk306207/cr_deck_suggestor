@@ -62,7 +62,6 @@ class _MyFormPageState extends State<MyFormPage> {
     final decksData = await http.get(
       Uri.parse('https://crproxy-production-6a8c.up.railway.app/getDecks'),
     );
-
     if (playerData.statusCode == 200 && decksData.statusCode == 200) {
       print('Data: ${_playerTag.text}');
 
@@ -96,7 +95,18 @@ class _MyFormPageState extends State<MyFormPage> {
         );
       }
     } else {
-      print('Error: ${playerData.statusCode}');
+      setState(() {
+        _saving = false;
+      });
+      Fluttertoast.showToast(
+        msg: "Error: ${playerData.statusCode}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -106,12 +116,12 @@ class _MyFormPageState extends State<MyFormPage> {
       backgroundColor: Colors.grey[100],
       body: ModalProgressHUD(
         inAsyncCall: _saving,
-        progressIndicator: CircularProgressIndicator(color: Colors.teal,),
-        
+        progressIndicator: CircularProgressIndicator(color: Colors.teal),
+
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               height: 220,
               width: double.infinity,
               decoration: BoxDecoration(color: Colors.teal),
