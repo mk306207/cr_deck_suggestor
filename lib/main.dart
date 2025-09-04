@@ -44,7 +44,7 @@ class _MyFormPageState extends State<MyFormPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _playerTag = TextEditingController();
   bool _saving = false;
-  
+
   @override
   void dispose() {
     _playerTag.dispose();
@@ -140,7 +140,7 @@ class _MyFormPageState extends State<MyFormPage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Mateusz Kolber",
+                    "Mateusz Kolber & Jakub Sobolewski",
                     style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
                 ],

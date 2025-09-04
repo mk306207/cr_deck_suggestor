@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class DeckSuggestor extends StatelessWidget {
-  final Map<String, dynamic>playerData, decks;
+  final Map<String, dynamic> data;
 
-  const DeckSuggestor({
-    Key? key,
-    required this.playerData,
-    required this.decks,
-  }) : super(key: key);
-  
+  const DeckSuggestor({Key? key, required this.data}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final entries = data.entries
+        .toList();
+    final deckList = data.entries
+        .map(
+          (e) => {
+            "title": e.key,
+            "points": e.value["points"],
+            "cards": e.value["cards"]
+          },
+        )
+        .toList();
     return Scaffold(
-      appBar: AppBar(title: const Text("Deck Suggestor")),
-      body: Center(
-        child: Text("Player data loaded!"),
+      appBar: AppBar(title: const Text("Decki")),
+      body: ListView.builder(
+        itemCount: deckList.length,
+        itemBuilder: (context, index) {
+          final deck = deckList[index];
+          return ExpansionTile(
+            title: Text("${deck["title"]}   ${deck["points"].toString()}/100"),
+            children: [Text("Cards in deck: ${deck["cards"].join(", ")}"),]
+          );
+        },
       ),
     );
   }

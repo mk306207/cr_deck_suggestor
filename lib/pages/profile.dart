@@ -32,15 +32,14 @@ class _ProfileState extends State<Profile> {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"player_data": jsondata}),
     );
-
+    //print(response.body);
     setState(() => _saving = false);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => DeckSuggestor(
-          playerData: jsondata,
-          decks: decksdata,
+          data: jsonDecode(response.body),
         ),
       ),
     );
