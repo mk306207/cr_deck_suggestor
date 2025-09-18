@@ -1,16 +1,12 @@
-# cr_deck_suggestor
+# Clash royale deck suggestor
+Flutter app that shows your account data and suggest you a meta deck that suits your card levels
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## IMPORTANT
+Before you start, this project uses a proxy server to call ClashRoyaleAPI and performs some calculations. I personally used Railway 30 days free trial for educational purposes.  
+API calls that you would need to change are located in:
+- `main.dart`, line **60** and **64**
+- `profile.dart`, line **29**
+## How to run this app?
+To run this app first you need a flutter enviroment (check some YouTube guide how to install flutter) and a mobile device or a simulator on your PC. When you successfully install flutter run `flutter doctor` and see whether you are good to go. If you would like to run this app on a simulator please firstly run your simulator then check if flutter sees it as a device. To check it run `flutter device` and see if it writes down your simulator, if it's there type `flutter run` and it's here! But if you want to run it on a physical mobile device connect your device to computer and once again check if flutter sees it, but instead of `flutter run` type `flutter run --release` and you should be good to go. 
