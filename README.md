@@ -1,4 +1,5 @@
-# Clash royale deck suggestor
+
+# Clash royale deck suggestor - Mateusz Kolber and Jakub Sobolewski
 Flutter app that shows your account data and suggest you a meta deck that suits your card levels
 
 
